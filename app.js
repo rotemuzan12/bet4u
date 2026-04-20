@@ -1,10 +1,5 @@
-const ENDPOINTS = {
-  development: "http://localhost:3000/api/links",
-  production: "https://REPLACE_WITH_PROD_DOMAIN/api/links",
-};
-
-const isLocal = ["localhost", "127.0.0.1", ""].includes(location.hostname);
-const LINKS_ENDPOINT = isLocal ? ENDPOINTS.development : ENDPOINTS.production;
+const DEV_ENDPOINT = "http://localhost:3000/api/links";
+const LINKS_ENDPOINT = window.APP_CONFIG?.LINKS_ENDPOINT || DEV_ENDPOINT;
 
 async function loadLinks() {
   const statusEl = document.getElementById("status");
