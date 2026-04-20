@@ -1,3 +1,4 @@
+console.log("ENV KEYS:", Object.keys(process.env).filter(k => k.includes("LINK") || k.includes("ENDPOINT")));
 const fs = require("fs");
 const path = require("path");
 
