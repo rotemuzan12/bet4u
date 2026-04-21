@@ -4,7 +4,10 @@
       "Bash(npx --version)",
       "Bash(node _extract.js)",
       "Bash(npm ls *)",
-      "Bash(node -e \"const b=require\\('fs'\\).readFileSync\\('casino-bg.png'\\);const w=b.readUInt32BE\\(16\\);const h=b.readUInt32BE\\(20\\);console.log\\('dimensions:',w,'x',h\\);\")"
+      "Bash(node -e \"const b=require\\('fs'\\).readFileSync\\('casino-bg.png'\\);const w=b.readUInt32BE\\(16\\);const h=b.readUInt32BE\\(20\\);console.log\\('dimensions:',w,'x',h\\);\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const b=fs.readFileSync\\('logo.png'\\);console.log\\('dims:',b.readUInt32BE\\(16\\),'x',b.readUInt32BE\\(20\\)\\);console.log\\('bit depth:',b[24]\\);console.log\\('color type:',b[25],'\\(0=gray,2=rgb,3=palette,4=gray+a,6=rgba\\)'\\);\")",
+      "Bash(npm install *)",
+      "Bash(node _recolor-logo.js)"
     ]
   }
 }

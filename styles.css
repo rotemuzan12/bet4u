@@ -89,6 +89,124 @@ html, body {
   z-index: 2;
 }
 
+/* ---- Slot machine: subtle scene element, never dominant ------------- */
+.slot-machine {
+  position: absolute;
+  top: 22%;
+  left: 3.5vw;
+  width: 196px;
+  height: 138px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.78;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.55));
+}
+
+.slot-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 18px 12px 14px;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(10, 26, 20, 0.92), rgba(4, 14, 11, 0.94));
+  border: 1px solid rgba(210, 170, 80, 0.32);
+  box-shadow:
+    inset 0 0 0 1px rgba(210, 170, 80, 0.10),
+    inset 0 -18px 28px rgba(0, 0, 0, 0.35),
+    0 0 22px rgba(48, 220, 160, 0.10);
+  display: flex;
+  gap: 6px;
+  overflow: hidden;
+}
+
+/* Gold crown / top bezel */
+.slot-frame::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 10px;
+  background:
+    linear-gradient(180deg, rgba(240, 205, 115, 0.55) 0%, rgba(180, 140, 60, 0.22) 65%, transparent 100%);
+  border-radius: 14px 14px 0 0;
+}
+
+/* Soft glass reflection across the whole frame */
+.slot-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 22%, transparent 78%, rgba(255, 255, 255, 0.03) 100%);
+  pointer-events: none;
+}
+
+.slot-reel {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(120, 180, 150, 0.18);
+  background: linear-gradient(180deg, rgba(2, 10, 8, 0.96), rgba(4, 16, 12, 0.96));
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.72);
+  overflow: hidden;
+}
+
+/* Fade top/bottom of each reel — symbols appear to drop out of darkness */
+.slot-reel::before,
+.slot-reel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30%;
+  z-index: 2;
+  pointer-events: none;
+}
+.slot-reel::before {
+  top: 0;
+  background: linear-gradient(180deg, rgba(3, 14, 11, 1), rgba(3, 14, 11, 0));
+}
+.slot-reel::after {
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(3, 14, 11, 1), rgba(3, 14, 11, 0));
+}
+
+.slot-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  animation: slotRoll linear infinite;
+}
+
+.slot-strip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 100%;
+  font-family: "Georgia", "Times New Roman", "Noto Serif", serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: #e9c77a;
+  text-shadow:
+    0 0 8px rgba(230, 190, 95, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0;
+}
+
+/* Staggered reel speeds so they never move in lockstep */
+.slot-reel:nth-child(1) .slot-strip { animation-duration: 7.6s; }
+.slot-reel:nth-child(2) .slot-strip { animation-duration: 9.4s; }
+.slot-reel:nth-child(3) .slot-strip { animation-duration: 8.3s; }
+
+@keyframes slotRoll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
+}
+
 .dust {
   z-index: 3;
   overflow: hidden;
@@ -122,6 +240,24 @@ html, body {
   transform: translateY(2vh);
 }
 
+/* Brand logo — tuned to the scene palette (champagne gold + scene emerald) */
+.brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.brand-logo {
+  width: 240px;
+  max-width: 72%;
+  height: auto;
+  display: block;
+  opacity: 0.96;
+  filter:
+    drop-shadow(0 6px 22px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 14px rgba(230, 195, 110, 0.12));
+}
+
 .status {
   font-size: 16px;
   text-align: center;
@@ -148,47 +284,98 @@ html, body {
 .links li { display: block; }
 
 .links a {
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  height: 52px;
-  border-radius: 12px;
-  border: 1px solid rgba(94, 206, 165, 0.28);
-  color: var(--text);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  height: 50px;
+  border-radius: 11px;
+  border: 1px solid rgba(120, 200, 165, 0.20);
+  color: #f4fbf7;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(6, 26, 20, 0.46), rgba(3, 18, 14, 0.46));
-  box-shadow: inset 0 0 0 1px rgba(6, 73, 52, 0.08);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background:
+    linear-gradient(180deg, rgba(10, 30, 23, 0.42), rgba(3, 17, 13, 0.54));
+  /* Tiny bevel: top highlight + bottom shadow give depth without weight */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.30);
+  backdrop-filter: blur(6px) saturate(1.05);
+  -webkit-backdrop-filter: blur(6px) saturate(1.05);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
   transition:
-    background 220ms ease,
-    box-shadow 260ms ease,
-    border-color 220ms ease;
+    background 260ms ease,
+    box-shadow 300ms ease,
+    border-color 240ms ease,
+    color 240ms ease;
+}
+
+/* Gold hairline across the top — luxury micro-detail */
+.links a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 14%;
+  right: 14%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(230, 195, 110, 0.30), transparent);
+  pointer-events: none;
+  transition: background 260ms ease;
+}
+
+/* Slow sheen that sweeps across on hover — subtle, luxury-watch feel */
+.links a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.06) 45%, rgba(230, 195, 110, 0.05) 55%, transparent 100%);
+  transform: skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: left 900ms cubic-bezier(.22, .9, .3, 1), opacity 260ms ease;
 }
 
 /* Keyboard focus — applies on all devices */
 .links a:focus-visible {
-  background: linear-gradient(180deg, rgba(14, 68, 50, 0.58), rgba(10, 56, 42, 0.58));
-  border-color: var(--emerald-line);
+  border-color: rgba(200, 255, 220, 0.42);
+  background: linear-gradient(180deg, rgba(16, 56, 42, 0.52), rgba(9, 40, 30, 0.60));
   box-shadow:
-    0 0 14px rgba(54, 242, 181, 0.10),
-    inset 0 0 10px rgba(90, 255, 207, 0.05);
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.32),
+    0 6px 22px rgba(0, 0, 0, 0.36),
+    0 0 10px rgba(90, 230, 180, 0.06);
+  color: #ffffff;
   outline: none;
 }
+.links a:focus-visible::before {
+  background: linear-gradient(90deg, transparent, rgba(230, 195, 110, 0.58), transparent);
+}
 
-/* Pointer hover — only on devices with real hover (not touchscreens),
-   so mobile taps never leave a sticky active state */
+/* Pointer hover — only on real-hover devices, so touches never stick */
 @media (hover: hover) {
   .links a:hover {
-    background: linear-gradient(180deg, rgba(14, 68, 50, 0.58), rgba(10, 56, 42, 0.58));
-    border-color: var(--emerald-line);
+    border-color: rgba(200, 255, 220, 0.42);
+    background: linear-gradient(180deg, rgba(16, 56, 42, 0.52), rgba(9, 40, 30, 0.60));
     box-shadow:
-      0 0 14px rgba(54, 242, 181, 0.10),
-      inset 0 0 10px rgba(90, 255, 207, 0.05);
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.32),
+      0 6px 22px rgba(0, 0, 0, 0.36),
+      0 0 10px rgba(90, 230, 180, 0.06);
+    color: #ffffff;
+  }
+  .links a:hover::before {
+    background: linear-gradient(90deg, transparent, rgba(230, 195, 110, 0.58), transparent);
+  }
+  .links a:hover::after {
+    left: 120%;
+    opacity: 1;
   }
 }
 
@@ -277,23 +464,52 @@ html, body {
     gap: 12px;
   }
 
+  .brand-logo {
+    width: 190px;
+  }
+
   .links {
     gap: 10px;
   }
   .links a {
-    height: 48px;
-    font-size: 15.5px;
-    border-radius: 11px;
-    border-color: rgba(94, 206, 165, 0.22);
-    background: linear-gradient(180deg, rgba(6, 26, 20, 0.52), rgba(3, 18, 14, 0.52));
+    height: 46px;
+    font-size: 15px;
+    letter-spacing: 0.025em;
+    border-radius: 10px;
   }
+
+  /* Shrink the slot so mobile stays uncluttered — woman right, roulette bottom-left,
+     slot a small ornament top-left above the links */
+  .slot-machine {
+    top: 4.5%;
+    left: 3vw;
+    width: 30vw;
+    height: 21vw;
+    opacity: 0.58;
+  }
+  .slot-frame {
+    padding: 12px 8px 9px;
+    border-radius: 10px;
+  }
+  .slot-frame::before { height: 7px; }
+  .slot-reel { border-radius: 4px; }
+  .slot-strip span {
+    height: 24px;
+    font-size: 14px;
+  }
+}
+
+/* Very small phones — hide the slot entirely to keep the hero breathing */
+@media (max-width: 360px) {
+  .slot-machine { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bg-drift,
   .bg-glow::before,
   .bg-glow::after,
-  .dust span {
+  .dust span,
+  .slot-strip {
     animation: none !important;
   }
 }
