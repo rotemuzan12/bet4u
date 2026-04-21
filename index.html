@@ -11,6 +11,7 @@
   <main class="scene">
     <div class="bg-base" aria-hidden="true"></div>
     <div class="bg-drift" aria-hidden="true"></div>
+    <div class="bg-mobile-roulette" aria-hidden="true"></div>
     <div class="bg-glow" aria-hidden="true"></div>
     <div class="vignette" aria-hidden="true"></div>
 
@@ -27,7 +28,6 @@
   <script src="config.js"></script>
   <script src="app.js"></script>
   <script>
-    // Ambient dust particles — matches reference
     (function () {
       const dust = document.getElementById('dust');
       if (!dust) return;
@@ -50,34 +50,6 @@
         p.style.animationDelay = delay + 's';
         dust.appendChild(p);
       }
-    })();
-
-    // Mirrors reference: first rendered link carries .is-active, hover moves it
-    (function () {
-      const listEl = document.getElementById('links');
-      if (!listEl) return;
-
-      function setActive(target) {
-        listEl.querySelectorAll('a').forEach(a => a.classList.remove('is-active'));
-        if (target) target.classList.add('is-active');
-      }
-
-      const observer = new MutationObserver(() => {
-        if (!listEl.querySelector('a.is-active')) {
-          const first = listEl.querySelector('a');
-          if (first) setActive(first);
-        }
-      });
-      observer.observe(listEl, { childList: true, subtree: true });
-
-      listEl.addEventListener('mouseover', (e) => {
-        const a = e.target.closest('a');
-        if (a && listEl.contains(a)) setActive(a);
-      });
-      listEl.addEventListener('focusin', (e) => {
-        const a = e.target.closest('a');
-        if (a && listEl.contains(a)) setActive(a);
-      });
     })();
   </script>
 </body>

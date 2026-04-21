@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npx --version)",
-      "Bash(node _extract.js)"
+      "Bash(node _extract.js)",
+      "Bash(npm ls *)",
+      "Bash(node -e \"const b=require\\('fs'\\).readFileSync\\('casino-bg.png'\\);const w=b.readUInt32BE\\(16\\);const h=b.readUInt32BE\\(20\\);console.log\\('dimensions:',w,'x',h\\);\")"
     ]
   }
 }
