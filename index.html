@@ -1,17 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#020705" />
   <title>Bet4U</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="stage">
-    <div id="status" class="status" role="status" aria-live="polite">טוען...</div>
-    <ul id="links" class="links" hidden></ul>
+  <main class="scene">
+    <div class="bg-base" aria-hidden="true"></div>
+    <div class="bg-drift" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="dust" id="dust" aria-hidden="true"></div>
+
+    <div class="overlay">
+      <div class="ui-wrapper">
+        <div id="status" class="status" role="status" aria-live="polite">טוען...</div>
+        <ul id="links" class="links" hidden></ul>
+      </div>
+    </div>
   </main>
+
   <script src="config.js"></script>
   <script src="app.js"></script>
+  <script>
+    // Ambient dust particles — matches reference
+    (function () {
+      const dust = document.getElementById('dust');
+      if (!dust) return;
+      for (let i = 0; i < 26; i++) {
+        const p = document.createElement('span');
+        const size = 3 + Math.random() * 6;
+        const left = Math.random() * 100;
+        const bottom = -2 + Math.random() * 12;
+        const duration = 8 + Math.random() * 10;
+        const delay = Math.random() * -10;
+        const rise = 16 + Math.random() * 28;
+        const drift = (-6 + Math.random() * 12).toFixed(2);
+        p.style.left = left + 'vw';
+        p.style.bottom = bottom + 'vh';
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.setProperty('--rise', rise + 'vh');
+        p.style.setProperty('--driftX', drift + 'vw');
+        p.style.animationDuration = duration + 's';
+        p.style.animationDelay = delay + 's';
+        dust.appendChild(p);
+      }
+    })();
+
+    // Mirrors reference: first rendered link carries .is-active, hover moves it
+    (function () {
+      const listEl = document.getElementById('links');
+      if (!listEl) return;
+
+      function setActive(target) {
+        listEl.querySelectorAll('a').forEach(a => a.classList.remove('is-active'));
+        if (target) target.classList.add('is-active');
+      }
+
+      const observer = new MutationObserver(() => {
+        if (!listEl.querySelector('a.is-active')) {
+          const first = listEl.querySelector('a');
+          if (first) setActive(first);
+        }
+      });
+      observer.observe(listEl, { childList: true, subtree: true });
+
+      listEl.addEventListener('mouseover', (e) => {
+        const a = e.target.closest('a');
+        if (a && listEl.contains(a)) setActive(a);
+      });
+      listEl.addEventListener('focusin', (e) => {
+        const a = e.target.closest('a');
+        if (a && listEl.contains(a)) setActive(a);
+      });
+    })();
+  </script>
 </body>
 </html>

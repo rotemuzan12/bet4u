@@ -1,39 +1,127 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+  --emerald-line: rgba(97, 255, 203, 0.72);
+  --text: #eaf7f1;
 }
+
+* { box-sizing: border-box; }
 
 html, body {
+  margin: 0;
+  width: 100%;
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Arial Hebrew", Arial, sans-serif;
-  color: #f5f5f5;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Arial Hebrew", Arial, Helvetica, sans-serif;
+  background: #020705;
+  color: var(--text);
 }
 
-body {
-  min-height: 100vh;
-  background-image: url("bet4u-background.jpg");
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #020705;
+  isolation: isolate;
+}
+
+.bg-base,
+.bg-drift,
+.bg-glow,
+.vignette,
+.dust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-base {
+  background-image: url("casino-bg.png");
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #000;
-  background-attachment: fixed;
+  background-position: center center;
+  transform: scale(1.022);
+  filter: saturate(1.02) contrast(1.03);
+  z-index: 0;
 }
 
-.stage {
-  min-height: 100vh;
+.bg-drift {
+  background-image: url("casino-bg.png");
+  background-size: cover;
+  background-position: center center;
+  opacity: 0.20;
+  mix-blend-mode: screen;
+  animation: cinematicDrift 20s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+.bg-glow { z-index: 1; }
+
+.bg-glow::before,
+.bg-glow::after {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  background:
+    radial-gradient(circle at 22% 74%, rgba(255, 190, 85, 0.12), transparent 16%),
+    radial-gradient(circle at 74% 26%, rgba(255, 185, 70, 0.08), transparent 13%),
+    radial-gradient(circle at 18% 50%, rgba(33, 227, 170, 0.09), transparent 16%),
+    radial-gradient(circle at 64% 58%, rgba(18, 184, 134, 0.08), transparent 22%);
+  filter: blur(28px);
+  opacity: 0.65;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+.bg-glow::after {
+  animation-delay: -4s;
+  opacity: 0.42;
+  transform: scale(1.05);
+}
+
+.vignette {
+  background:
+    radial-gradient(circle at center, transparent 34%, rgba(0,0,0,0.18) 64%, rgba(0,0,0,0.50) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.18), transparent 18%, transparent 80%, rgba(0,0,0,0.30));
+  z-index: 2;
+}
+
+.dust {
+  z-index: 3;
+  overflow: hidden;
+}
+
+.dust span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 212, 129, 0.55);
+  box-shadow: 0 0 12px rgba(255, 212, 129, 0.35);
+  animation: floatUp linear infinite;
+}
+
+.overlay {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.ui-wrapper {
+  width: min(478px, 84vw);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6vh 5vw 10vh;
-  gap: 24px;
+  gap: 14px;
+  transform: translateY(2vh);
 }
 
 .status {
-  font-size: 1rem;
-  opacity: 0.8;
+  font-size: 16px;
   text-align: center;
+  opacity: 0.88;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.7);
 }
 
 .status.error {
@@ -41,49 +129,99 @@ body {
   opacity: 1;
 }
 
+/* Links — dynamically rendered by app.js; markup preserved */
 .links {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  width: 100%;
-  max-width: 420px;
 }
 
+.links li { display: block; }
+
 .links a {
+  width: 100%;
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid rgba(56, 199, 156, 0.65);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 22px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #f5f5f5;
-  background: rgba(10, 40, 30, 0.55);
-  border: 1px solid rgba(120, 220, 180, 0.35);
-  border-radius: 10px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  background: linear-gradient(180deg, rgba(3, 28, 22, 0.76), rgba(2, 22, 17, 0.76));
+  box-shadow:
+    inset 0 0 0 1px rgba(6, 73, 52, 0.18),
+    0 0 0 rgba(0,0,0,0);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
 }
 
 .links a:hover,
-.links a:focus-visible {
-  background: rgba(20, 80, 55, 0.75);
-  border-color: rgba(160, 255, 210, 0.7);
-  box-shadow: 0 0 24px rgba(80, 200, 150, 0.35);
-  transform: translateY(-1px);
+.links a:focus-visible,
+.links a.is-active {
+  background: linear-gradient(180deg, rgba(14, 85, 62, 0.92), rgba(11, 72, 53, 0.92));
+  border-color: var(--emerald-line);
+  box-shadow:
+    0 0 0 1px rgba(90, 255, 207, 0.10),
+    0 0 22px rgba(54, 242, 181, 0.18),
+    inset 0 0 18px rgba(90, 255, 207, 0.08);
   outline: none;
 }
 
-.links a:active {
-  transform: translateY(0);
+@keyframes cinematicDrift {
+  0%   { transform: scale(1.03) translate3d(-0.4%, 0.15%, 0); }
+  50%  { transform: scale(1.042) translate3d(0.55%, -0.22%, 0); }
+  100% { transform: scale(1.034) translate3d(0.12%, 0.4%, 0); }
 }
 
-@media (max-width: 480px) {
+@keyframes glowPulse {
+  0%,100% { opacity: 0.42; }
+  50%     { opacity: 0.78; }
+}
+
+@keyframes floatUp {
+  0%   { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+  10%  { opacity: 0.72; }
+  100% { transform: translate3d(var(--driftX), calc(-1 * var(--rise)), 0) scale(1.14); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .ui-wrapper {
+    width: min(92vw, 478px);
+    transform: translateY(0);
+  }
   .links a {
-    font-size: 1rem;
-    padding: 14px 18px;
+    height: 54px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Mobile: tone down the hostess/casino so links read cleanly */
+  .bg-base  { filter: saturate(0.95) contrast(1.02) brightness(0.82); }
+  .bg-drift { opacity: 0.12; }
+  .vignette {
+    background:
+      radial-gradient(circle at center, transparent 22%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.75) 100%),
+      linear-gradient(to bottom, rgba(0,0,0,0.25), transparent 20%, transparent 75%, rgba(0,0,0,0.45));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-drift,
+  .bg-glow::before,
+  .bg-glow::after,
+  .dust span {
+    animation: none !important;
   }
 }

@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const OUT = "dist";
-const STATIC_FILES = ["index.html", "styles.css", "app.js", "bet4u-background.jpg"];
+const STATIC_FILES = ["index.html", "styles.css", "app.js", "bet4u-background.jpg", "casino-bg.png"];
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
