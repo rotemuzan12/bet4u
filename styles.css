@@ -217,6 +217,34 @@ html, body {
   }
 }
 
+/* Mobile-only adjustments — desktop unchanged */
+@media (max-width: 767.98px) {
+  .scene {
+    min-height: 100dvh;
+  }
+
+  .bg-base {
+    background-position: 62% center;
+    transform: scale(1.06);
+  }
+  .bg-drift {
+    background-position: 62% center;
+  }
+
+  .overlay {
+    padding: 20px 16px;
+  }
+
+  .links {
+    gap: 12px;
+  }
+  .links a {
+    height: 52px;
+    font-size: 16px;
+    border-radius: 11px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bg-drift,
   .bg-glow::before,
