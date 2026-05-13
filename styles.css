@@ -314,6 +314,23 @@ html, body {
     color 240ms ease;
 }
 
+/* First CRM item gets the premium treatment. The list is already sorted in app.js. */
+.links li:first-child a {
+  height: 62px;
+  border-color: rgba(230, 195, 110, 0.72);
+  color: #fff8df;
+  font-size: 17px;
+  font-weight: 650;
+  background:
+    linear-gradient(180deg, rgba(90, 66, 18, 0.72), rgba(32, 22, 8, 0.78)),
+    linear-gradient(90deg, rgba(230, 195, 110, 0.16), transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.36),
+    0 10px 30px rgba(230, 195, 110, 0.18),
+    0 0 0 1px rgba(230, 195, 110, 0.14);
+}
+
 /* Gold hairline across the top — luxury micro-detail */
 .links a::before {
   content: "";
@@ -325,6 +342,23 @@ html, body {
   background: linear-gradient(90deg, transparent, rgba(230, 195, 110, 0.30), transparent);
   pointer-events: none;
   transition: background 260ms ease;
+}
+
+.links li:first-child a::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 232, 168, 0.70), transparent);
+}
+
+.links li:first-child a::after {
+  inset: 7px;
+  left: 7px;
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(255, 242, 190, 0.12);
+  border-radius: 7px;
+  background: none;
+  transform: none;
+  opacity: 1;
+  transition: none;
 }
 
 /* Slow sheen that sweeps across on hover — subtle, luxury-watch feel */
